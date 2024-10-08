@@ -1,4 +1,4 @@
-package com.example.backend;
+package com.sn0wf1ake.backend;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
