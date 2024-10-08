@@ -6,6 +6,11 @@
 
 #### Frontend
 
+To start the frontend web app, use command
+
+```shell
+npm start
+```
 
 #### Backend
 
