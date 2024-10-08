@@ -51,5 +51,9 @@ node -v
 # Verify npx Installation
 npx -v
 
+# Install Frontend tools for HTTP client for making requests
+cd frontend
+npm install axios
+
 ```
 
