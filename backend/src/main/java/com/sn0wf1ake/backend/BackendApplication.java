@@ -1,3 +1,8 @@
+/**
+ * Provides the necessary components to Enable CORS
+ *
+ * @since 0.0.1 
+ */
 package com.sn0wf1ake.backend;
 
 import org.springframework.boot.SpringApplication;

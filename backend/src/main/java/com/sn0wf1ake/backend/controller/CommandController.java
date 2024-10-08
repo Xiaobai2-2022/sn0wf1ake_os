@@ -7,7 +7,8 @@
 package com.sn0wf1ake.backend.controller;
 
 import com.sn0wf1ake.backend.model.CommandModel;
-import com.sn0wf1ake.backend.service.CommandService;
+import com.sn0wf1ake.backend.service.command.*;
+import com.sn0wf1ake.backend.service.CommandFactory;
 
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,16 +20,17 @@ import org.springframework.web.bind.annotation.*;
 public class CommandController {
 
     @Autowired
-    private CommandService commandService;
+    private CommandFactory commandFactory;
 
-    @PostMapping("/commands")
+    @PostMapping
     public ResponseEntity<?> handleCommand(@RequestBody CommandModel commandModel) {
 
         try {
-            Object result = commandService.executeCommand(commandModel);
+            Command command = commandFactory.getCommand(commandModel.getCommand());
+            Object result = command.execute(commandModel.getArgs());
             return ResponseEntity.ok(result);
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
         
     }
