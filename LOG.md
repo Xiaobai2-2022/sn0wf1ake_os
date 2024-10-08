@@ -26,10 +26,21 @@ CORS stands for **Cross-Origin Resource Sharing** it is an HTTP-header base mech
 
 ---
 
-#### DB
+#### Database
 
 To connect to the MySQL database, use command
 
 ```shell
 mysql -u root -p
 ```
+
+## Oct 08, 2024
+
+### Notes
+
+#### Frontend
+
+#### Backend
+
+#### Database
+
