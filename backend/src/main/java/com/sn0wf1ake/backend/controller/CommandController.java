@@ -6,6 +6,7 @@
  */
 package com.sn0wf1ake.backend.controller;
 
+import com.sn0wf1ake.backend.APIResponse;
 import com.sn0wf1ake.backend.model.CommandModel;
 import com.sn0wf1ake.backend.service.command.*;
 import com.sn0wf1ake.backend.service.CommandFactory;
@@ -23,14 +24,14 @@ public class CommandController {
     private CommandFactory commandFactory;
 
     @PostMapping("/execute")
-    public ResponseEntity<?> handleCommand(@RequestBody CommandModel commandModel) {
+    public ResponseEntity<APIResponse<?>> handleCommand(@RequestBody CommandModel commandModel) {
 
         try {
             Command command = commandFactory.getCommand(commandModel.getCommand());
             Object result = command.execute(commandModel.getArgs());
-            return ResponseEntity.ok(result);
+            return ResponseEntity.ok(APIResponse.success(result));
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.badRequest().body(APIResponse.failure(e.getMessage()));
         }
         
     }
