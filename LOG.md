@@ -1,6 +1,6 @@
 # Development Log
 
-## Oct 07, 2024
+## V 0.0._
 
 ### Notes
 
@@ -33,14 +33,3 @@ To connect to the MySQL database, use command
 ```shell
 mysql -u root -p
 ```
-
-## Oct 08, 2024
-
-### Notes
-
-#### Frontend
-
-#### Backend
-
-#### Database
-
