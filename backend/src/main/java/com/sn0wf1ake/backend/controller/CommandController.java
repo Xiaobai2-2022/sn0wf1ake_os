@@ -22,7 +22,7 @@ public class CommandController {
     @Autowired
     private CommandFactory commandFactory;
 
-    @PostMapping
+    @PostMapping("/execute")
     public ResponseEntity<?> handleCommand(@RequestBody CommandModel commandModel) {
 
         try {
