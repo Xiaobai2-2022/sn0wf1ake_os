@@ -10,5 +10,5 @@ CREATE TABLE IF NOT EXISTS command_lists (
     id INT AUTO_INCREMENT PRIMARY KEY,
     command VARCHAR(50) NOT NULL UNIQUE,
     short_description TINYTEXT NOT NULL,
-    long_description TEXT
+    long_description MEDIUMTEXT
 );
