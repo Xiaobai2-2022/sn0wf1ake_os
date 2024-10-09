@@ -16,8 +16,8 @@ public class CommandEcho implements Command {
 
     @Override
     public Object execute(String args) {
-        if(args == null) return "\n";
-        return args + "\n";
+        if(args == null) return "";
+        return args;
     }
 
 }
