@@ -7,6 +7,7 @@ Sn0wf1ake VM is a virtual machine system designed, implemented by Fangxia Techno
 - [About the Project](#about-this-project)
   - [Build Tools](#build-tools)
   - [Tools Installation](#tools-installation)
+  - [Tools Configuration](#tools-configuration)
 
 ## About this Project
 
@@ -21,7 +22,7 @@ Sn0wf1ake VM is a virtual machine system designed, implemented by Fangxia Techno
 - DBMS:
   - [MySQL](https://www.mysql.com/)
 
-### Tools installation
+### Tools Installation
 
 The system is built on a WSL Machine with the tools installed by the following commands:
 
@@ -50,10 +51,31 @@ node -v
 
 # Verify npx Installation
 npx -v
-
-# Install Frontend tools for HTTP client for making requests
-cd frontend
-npm install axios
-
 ```
 
+### Tools Configuration
+
+If you are installing this project from github, do the following:
+
+```shell
+# Login to MySQL server
+mysql -u root -p
+```
+
+```sql
+-- Reset password to match discription in application.properties
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'Sn0wf1ake_dev';
+FLUSH PRIVILEGES;
+EXIT;
+```
+
+```shell
+# Set up Frontend
+cd frontend
+npm install
+
+# Install Frontend tools for HTTP client for making requests
+npm install axios
+```
+
+Backend would update itself upon run
