@@ -15,12 +15,23 @@ public class SFStringUtils {
         throw new UnsupportedOperationException("String Utility class");
     }
 
-    // Retrieve the first arg
+    // Retrieve the first arg and the rest
     public static SFPair<String, String> retrieveFirstArg(String args) {
 
         if(args == null) return null;
 
-        return args.split(" ")[0];
+        // Remove all leading spaces
+        // @see https://www.w3schools.com/java/ref_string_replacefirst.asp
+        String argsNoLeadingSpace = args.replaceFirst("^\\s+", "");
+
+        int spaceIndex = argsNoLeadingSpace.indexOf(" ");
+
+        if(spaceIndex == -1) return new SFPair<String, String>(argsNoLeadingSpace, "");
+
+        String firstArg = argsNoLeadingSpace.substring(0, spaceIndex);
+        String remainArgs = argsNoLeadingSpace.substring(spaceIndex).replaceFirst("^\\s+", "");
+
+        return new SFPair<String, String>(firstArg, remainArgs);
 
     }
 
@@ -41,13 +52,13 @@ public class SFStringUtils {
 
     }
 
-    /**
-     * Retrieve the first possible set of flags with validation, where it:
-     * 1. if agmented by --flag, then return this flag and the rest of the args
-     * 2. if agmented by -f, then return all possible leading flags and the rest of args
-     */ 
-    public static SFPair<String, String> retrieveFirstFlag(String args, ArrayList<String> acc_short, ArrayList<String> acc_long) {
+    // /**
+    //  * Retrieve the first possible set of flags with validation, where it:
+    //  * 1. if agmented by --flag, then return this flag and the rest of the args
+    //  * 2. if agmented by -f, then return all possible leading flags and the rest of args
+    //  */ 
+    // public static SFPair<String, String> retrieveFirstFlag(String args, ArrayList<String> acc_short, ArrayList<String> acc_long) {
         
-    }
+    // }
 
 }

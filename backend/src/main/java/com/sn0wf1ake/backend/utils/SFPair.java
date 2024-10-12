@@ -11,7 +11,7 @@ public class SFPair<K, V> {
     private K key;
     private V value;
 
-    public Pair(K key, V value) {
+    public SFPair(K key, V value) {
         this.key = key;
         this.value = value;
     }
