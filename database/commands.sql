@@ -5,7 +5,7 @@ USE sfdevdb;
 
 INSERT INTO command_lists (command, short_description, long_description)
 VALUES
-    ('echo', 'prints all text in argument list', NULL)
+    ('echo', 'display a line of text', NULL)
 ON DUPLICATE KEY UPDATE
     short_description = VALUES(short_description),
     long_description = VALUES(long_description);
