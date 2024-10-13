@@ -40,25 +40,99 @@ public class SFStringUtils {
 
         if(args == null) return new ArrayList<>();
         
-        String[] arr_args = args.split(" ");
+        String[] arrArgs = args.split(" ");
 
-        ArrayList<String> list_args = new ArrayList<>();
+        ArrayList<String> listArgs = new ArrayList<>();
 
-        for(String arg : arr_args) {
-            list_args.add(arg);
+        for(String arg : arrArgs) {
+            listArgs.add(arg);
         }
 
-        return list_args;
+        return listArgs;
 
     }
+
+    /**
+     * Retrieve the first possible set of flags with validation, where it:
+     * if agmented by --flag, then return this flag and the rest of the args
+     */
+    public static SFPair<String, String> retrieveFirstLongFlag(SFPair<String, String> retrieveFirst, ArrayList<String> accLong) {
+
+        String firstArg = retrieveFirst.getKey();
+
+        if(firstArg.indexOf("--") == 0) {
+            
+            String longFlag = firstArg.substring(2);
+            if(accLong.contains(longFlag)) {
+                return new SFPair<String, String>(longFlag, retrieveFirst.getValue());
+            }
+
+        }
+        return new SFPair<String, String>(null, retrieveFirst.getKey() + " " + retrieveFirst.getValue());
+
+    }
+
+    // /**
+    //  * Retrieve the first possible set of flags with validation, where it:
+    //  * if agmented by -f, then return all possible leading flags and the rest of args
+    //  * !-- NOT FULLY TESTED --!
+    //  */
+    // public static SFPair<String, String> retrieveFirstLongFlag(SFPair<String, String> retrieveFirst, ArrayList<char> accShort) {
+
+    //     String firstArg = retrieveFirst.getKey();
+
+    //     if(firstArg.indexOf("-") == 0) {
+            
+    //         String shortFlag = firstArg.substring(1);
+
+    //         if(shortFlag == "") {
+    //             return new SFPair<String, String>(null, retrieveFirst.getKey() + " " + retrieveFirst.getValue());
+    //         }
+
+    //         String shortFlags = "";
+
+    //         for(char c : shortFlags.toCharArray()) {
+    //             if(accShort.contains(c)) {
+    //                 shortFlags = shortFlags + c;
+    //             } else {
+    //                 return new SFPair<String, String>(null, retrieveFirst.getKey() + " " + retrieveFirst.getValue());
+    //             }
+    //         }
+
+    //         // Recursively call to retrive all next flags
+    //         SFPair<String, String> retrieveNext = retrieveFirstArg(retrieveFirst.getValue());
+    //         SFPair<String, String> shortFlagsNext = retrieveFirstLongFlag(retrieveNext, accShort);
+
+    //         if(shortFlagsSecond != null) {
+    //             shortFlags = shortFlags + shortFlagsSecond.getKey();
+    //             retrieveFirst.setValue(shortFlagsNext.getValue());
+    //         }
+
+    //         return new SFPair<String, String>(shortFlags, retrieveFirst.getValue());
+
+    //     }
+
+    // }
 
     // /**
     //  * Retrieve the first possible set of flags with validation, where it:
     //  * 1. if agmented by --flag, then return this flag and the rest of the args
     //  * 2. if agmented by -f, then return all possible leading flags and the rest of args
     //  */ 
-    // public static SFPair<String, String> retrieveFirstFlag(String args, ArrayList<String> acc_short, ArrayList<String> acc_long) {
+    // public static SFPair<String, String> retrieveFirstFlag(String args, ArrayList<String> accLong, ArrayList<char> accShort) {
         
+    //     SFPair<String, String> retrieveFirst = retrieveFirstArg(args);
+
+    //     String curFlag = retrieveFirst.getKey();
+
+    //     if(curFlag.indexOf("-") == 0) {
+
+    //         if(curFlag.indexOf("--") == 0) {
+            
+    //         }
+
+    //     }
+
     // }
 
 }
