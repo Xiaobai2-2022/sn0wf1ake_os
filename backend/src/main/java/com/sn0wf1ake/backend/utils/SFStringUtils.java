@@ -72,47 +72,53 @@ public class SFStringUtils {
 
     }
 
-    // /**
-    //  * Retrieve the first possible set of flags with validation, where it:
-    //  * if agmented by -f, then return all possible leading flags and the rest of args
-    //  * !-- NOT FULLY TESTED --!
-    //  */
-    // public static SFPair<String, String> retrieveFirstLongFlag(SFPair<String, String> retrieveFirst, ArrayList<char> accShort) {
+    /**
+     * Retrieve the first possible set of flags with validation, where it:
+     * if agmented by -f, then return all possible leading flags and the rest of args
+     * !-- NOT FULLY TESTED --!
+     * 
+     * Note: ArrayList only allow non-primitive type
+     */
+    public static SFPair<String, String> retrieveFirstShortFlag(SFPair<String, String> retrieveFirst, ArrayList<Character> accShort) {
 
-    //     String firstArg = retrieveFirst.getKey();
+        String firstArg = retrieveFirst.getKey();
 
-    //     if(firstArg.indexOf("-") == 0) {
+        if(firstArg.indexOf("-") == 0) {
             
-    //         String shortFlag = firstArg.substring(1);
+            String shortFlag = firstArg.substring(1);
 
-    //         if(shortFlag == "") {
-    //             return new SFPair<String, String>(null, retrieveFirst.getKey() + " " + retrieveFirst.getValue());
-    //         }
+            if(shortFlag == "") {
+                return new SFPair<String, String>(null, retrieveFirst.getKey() + " " + retrieveFirst.getValue());
+            }
 
-    //         String shortFlags = "";
+            String shortFlags = "";
 
-    //         for(char c : shortFlags.toCharArray()) {
-    //             if(accShort.contains(c)) {
-    //                 shortFlags = shortFlags + c;
-    //             } else {
-    //                 return new SFPair<String, String>(null, retrieveFirst.getKey() + " " + retrieveFirst.getValue());
-    //             }
-    //         }
+            for(char c : shortFlag.toCharArray()) {
+                if(accShort.contains(c)) {
+                    shortFlags = shortFlags + c;
+                } else {
+                    return new SFPair<String, String>(null, retrieveFirst.getKey() + " " + retrieveFirst.getValue());
+                }
+            }
 
-    //         // Recursively call to retrive all next flags
-    //         SFPair<String, String> retrieveNext = retrieveFirstArg(retrieveFirst.getValue());
-    //         SFPair<String, String> shortFlagsNext = retrieveFirstLongFlag(retrieveNext, accShort);
+            // Recursively call to retrive all next flags
+            SFPair<String, String> retrieveNext = retrieveFirstArg(retrieveFirst.getValue());
+            SFPair<String, String> shortFlagsNext = retrieveFirstShortFlag(retrieveNext, accShort);
 
-    //         if(shortFlagsSecond != null) {
-    //             shortFlags = shortFlags + shortFlagsSecond.getKey();
-    //             retrieveFirst.setValue(shortFlagsNext.getValue());
-    //         }
+            String shortFlagsSecond = shortFlagsNext.getKey();
 
-    //         return new SFPair<String, String>(shortFlags, retrieveFirst.getValue());
+            if(shortFlagsSecond != null) {
+                shortFlags = shortFlags + shortFlagsNext.getKey();
+                retrieveFirst.setValue(shortFlagsNext.getValue());
+            }
 
-    //     }
+            return new SFPair<String, String>(shortFlags, retrieveFirst.getValue());
 
-    // }
+        }
+        
+        return new SFPair<String, String>(null, retrieveFirst.getKey() + " " + retrieveFirst.getValue());
+
+    }
 
     // /**
     //  * Retrieve the first possible set of flags with validation, where it:

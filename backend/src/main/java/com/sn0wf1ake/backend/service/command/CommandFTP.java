@@ -19,12 +19,20 @@ public class CommandFTP implements Command {
     @Override
     public Object execute(String args) {
 
-        ArrayList<String> lFs = new ArrayList<>();
+        // ArrayList<String> lFs = new ArrayList<>();
 
-        lFs.add("help");
-        lFs.add("version");
+        // lFs.add("help");
+        // lFs.add("version");
 
-        SFPair<String, String> firstArg = SFStringUtils.retrieveFirstLongFlag(SFStringUtils.retrieveFirstArg(args), lFs);
+        // SFPair<String, String> firstArg = SFStringUtils.retrieveFirstLongFlag(SFStringUtils.retrieveFirstArg(args), lFs);
+
+        ArrayList<Character> sFs = new ArrayList<>();
+
+        sFs.add('e');
+        sFs.add('E');
+        sFs.add('n');
+
+        SFPair<String, String> firstArg = SFStringUtils.retrieveFirstShortFlag(SFStringUtils.retrieveFirstArg(args), sFs);
 
         String ret = "Key: " + firstArg.getKey() + ", Value: " + firstArg.getValue() + ".";
         
