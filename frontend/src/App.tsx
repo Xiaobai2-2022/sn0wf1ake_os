@@ -1,24 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import React from 'react';
+import Terminal from './components/Terminal';
 
-function App() {
-  const [message, setMessage] = useState('');
-
-  useEffect(() => {
-    axios.get('http://localhost:8080/api/hello')
-      .then(response => {
-        setMessage(response.data);
-      })
-      .catch(error => {
-        console.error('There was an error!', error);
-      });
-  }, []);
-
+const App: React.FC = () => {
   return (
     <div>
-      <h1>{message || 'Loading...'}</h1>
+      <Terminal />
     </div>
   );
-}
+};
 
 export default App;
