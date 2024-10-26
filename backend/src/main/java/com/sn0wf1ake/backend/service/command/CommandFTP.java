@@ -9,7 +9,6 @@
 package com.sn0wf1ake.backend.service.command;
 
 import com.sn0wf1ake.backend.utils.*;
-import com.sn0wf1ake.backend.APIResponse;
 
 import java.util.ArrayList;
 import org.springframework.stereotype.Component;
@@ -36,10 +35,8 @@ public class CommandFTP implements Command {
         SFPair<String, String> firstArg = SFStringUtils.retrieveFirstShortFlag(SFStringUtils.retrieveFirstArg(args), sFs);
 
         // String ret = "Key: " + firstArg.getKey() + ", Value: " + firstArg.getValue() + ".";
-
-        APIResponse<SFPair<String, String>> ret = APIResponse.success(firstArg);
         
-        return ret;
+        return firstArg;
         
     }
 
