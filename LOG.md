@@ -24,6 +24,12 @@ WebMcvConfigurer is an interface provided by the **Spring Framework** in the **S
 
 CORS stands for **Cross-Origin Resource Sharing** it is an HTTP-header base mechanism that allows server to indicate any origins other than its own.
 
+To test the backend server, use command
+
+```shell
+curl -X POST -H "Content-Type: application/json" -d '{"command": "FTP", "args": "Test Arguments"}' http://localhost:8080/api/execute
+```
+
 ---
 
 #### Database
