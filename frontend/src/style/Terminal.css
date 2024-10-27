@@ -1,39 +1,40 @@
-/* Terminal.css */
-
 .terminal {
-    background-color: #000;
-    color: #00ff00;
-    font-family: 'Consolas', monospace;
-    font-size: 16px; /* Increase the font size as desired */
-    padding: 10px;
-    height: 100vh;
-    overflow-y: auto;
-    white-space: pre-wrap;
-  }
-  
-  .output-line {
-    white-space: pre-wrap;
-  }
-  
-  .input-line {
-    display: grid;
-    grid-template-columns: auto 1fr;
-    align-items: start;
-    width: 100%;
-  }
-  
-  .prompt {
-    white-space: pre;
-  }
-  
-  .input-area {
-    outline: none;
-    white-space: pre-wrap;
-    word-wrap: break-word;
-  }
-  
-  .input-area:empty::before {
-    content: attr(data-placeholder);
-    color: rgba(0, 255, 0, 0.5);
-  }
-  
+  background-color: #000;
+  color: #00ff00;
+  font-family: 'Consolas', monospace;
+  font-size: 16px;
+  padding: 10px;
+  height: 100vh;
+  overflow-y: auto;
+  white-space: pre-wrap;
+}
+
+.output-line {
+  white-space: pre-wrap;
+  /* white-space: no-wrap; */
+  /* flex-wrap: wrap; */
+  word-wrap: break-word;
+}
+
+.input-line {
+  display: flex;
+  flex-wrap: wrap;
+  overflow-wrap: break-word;
+}
+
+.prompt {
+  margin-right: 5px;
+}
+
+.input-area {
+  flex: 1;
+  min-width: 0; /* Allows the input area to shrink */
+  outline: none;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.input-area:empty::before {
+  content: attr(data-placeholder);
+  color: rgba(0, 255, 0, 0.5);
+}
