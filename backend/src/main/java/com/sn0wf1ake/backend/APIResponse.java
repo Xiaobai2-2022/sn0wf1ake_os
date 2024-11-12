@@ -45,7 +45,7 @@ public class APIResponse<T> {
         this.data = data;
     }
 
-    public void setMessage() {
+    public void setMessage(String message) {
         this.message = message;
     }
 
