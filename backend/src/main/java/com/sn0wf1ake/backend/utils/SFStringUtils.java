@@ -120,25 +120,4 @@ public class SFStringUtils {
 
     }
 
-    // /**
-    //  * Retrieve the first possible set of flags with validation, where it:
-    //  * 1. if agmented by --flag, then return this flag and the rest of the args
-    //  * 2. if agmented by -f, then return all possible leading flags and the rest of args
-    //  */ 
-    // public static SFPair<String, String> retrieveFirstFlag(String args, ArrayList<String> accLong, ArrayList<char> accShort) {
-        
-    //     SFPair<String, String> retrieveFirst = retrieveFirstArg(args);
-
-    //     String curFlag = retrieveFirst.getKey();
-
-    //     if(curFlag.indexOf("-") == 0) {
-
-    //         if(curFlag.indexOf("--") == 0) {
-            
-    //         }
-
-    //     }
-
-    // }
-
 }
