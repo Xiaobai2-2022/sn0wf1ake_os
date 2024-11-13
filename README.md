@@ -69,6 +69,14 @@ FLUSH PRIVILEGES;
 EXIT;
 ```
 
+Then grant all privileges to a new backend user
+
+```sql
+CREATE USER 'springuser'@'localhost' IDENTIFIED BY 'Sn0wf1ake_spring';
+GRANT ALL PRIVILEGES ON sfdevdb.* TO 'springuser'@'localhost';
+FLUSH PRIVILEGES;
+```
+
 ```shell
 # Set up Frontend
 cd frontend

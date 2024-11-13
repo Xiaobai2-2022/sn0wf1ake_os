@@ -6,7 +6,6 @@
  */
 package com.sn0wf1ake.backend.service;
 
-import com.sn0wf1ake.backend.model.CommandModel;
 import com.sn0wf1ake.backend.service.command.Command;
 
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,5 +1,5 @@
 /**
- * Provides the classes necessary to communicate with
+ * Provides the class necessary to communicate with
  * the frontend for the command parser.
  *
  * @since 0.0.1 
@@ -11,7 +11,6 @@ import com.sn0wf1ake.backend.model.CommandModel;
 import com.sn0wf1ake.backend.service.command.*;
 import com.sn0wf1ake.backend.service.CommandFactory;
 
-import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
