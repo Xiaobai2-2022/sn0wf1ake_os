@@ -5,7 +5,7 @@ USE sfdevdb;
 
 INSERT INTO command_lists (command, short_description, long_description, ver)
 VALUES
-    ('echo', 'display a line of text', 
+    ('echo', 'echo - display a line of text', 
     'User Commands - "echo"\n\
     NAME\n\
         echo - display a line of text\n\

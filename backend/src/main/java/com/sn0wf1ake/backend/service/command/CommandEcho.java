@@ -48,7 +48,7 @@ public class CommandEcho implements Command {
 
                 if(commandInfoOpt.isPresent()) {
                     CommandInfo commandInfo = commandInfoOpt.get();
-                    return "echo: " + commandInfo.getShortDescription();
+                    return commandInfo.getShortDescription();
                 }
 
                 return "An unexpected error has Occured!";
