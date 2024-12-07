@@ -22,7 +22,7 @@ public class CommandFactory {
         if(applicationContext.containsBean(commandName)) {
             return applicationContext.getBean(commandName, Command.class);
         }
-        throw new IllegalArgumentException(commandName + ": Command not found");
+        throw new IllegalArgumentException(commandName + ": Command not found\n");
     }
 
 }
