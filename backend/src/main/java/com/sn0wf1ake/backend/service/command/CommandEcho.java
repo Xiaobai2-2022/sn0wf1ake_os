@@ -85,7 +85,7 @@ public class CommandEcho implements Command {
 
         if(args == null) return APIResponse.success("");
 
-        return APIResponse.success(args);
+        return APIResponse.success(args + "\n");
 
     }
 
