@@ -8,7 +8,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import './../style/terminal.css';
 
 interface APIResponse<T> {
-    status: 'SUCCESS' | 'FAILURE' | 'WARN' | 'UNDEFINED';
+    status: 'SUCCESS' | 'SUCCESS_OPERATION' | 'FAILURE' | 'WARN' | 'UNDEFINED';
     data: T | null;
     message: string | null;
 }
@@ -93,6 +93,10 @@ const Terminal: React.FC = () => {
     const appendOutput = (text: string) => {
         setOutput((prev) => [...prev, text]);
     };
+
+    const clearOutput = () => {
+        setOutput([]);
+    };
   
     const updateHistory = (commandLine: string) => {
         setHistory([...history, commandLine]);
@@ -120,45 +124,55 @@ const Terminal: React.FC = () => {
     
 
     const processCommand = async (commandLine: string) => {
-    const [command, ...argsArray] = commandLine.trim().split(/\s+/);
-    const args = argsArray.join(' ');
+        const [command, ...argsArray] = commandLine.trim().split(/\s+/);
+        const args = argsArray.join(' ');
 
-    try {
-        const response = await fetch('http://localhost:8080/api/execute', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ command, args }),
-        });
+        try {
+            const response = await fetch('http://localhost:8080/api/execute', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ command, args }),
+            });
 
 
-        const result: APIResponse<string> = await response.json();
+            const result: APIResponse<string> = await response.json();
 
-        if (result.status === 'SUCCESS') {
-            let dataOutput = '';
+            if(result.status === 'SUCCESS') {
+                let dataOutput = '';
 
-            console.log('result:', result);
-            console.log('result.data:', result.data);
+                console.log('result:', result);
+                console.log('result.data:', result.data);
   
-            if (result.data === null) {
-                dataOutput = 'null';
-            } else if (result.data === undefined) {
-                dataOutput = 'undefined';
-            } else if (typeof result.data === 'string') {
-                dataOutput = result.data;
-            } else if (typeof result.data === 'number' || typeof result.data === 'boolean') {
-                dataOutput = String(result.data);
-            } else if (typeof result.data === 'object') {
-                dataOutput = JSON.stringify(result.data, null, 2); // Pretty-print JSON
-            } else {
-                dataOutput = 'Unsupported data type received.\n';
-            }
+                if (result.data === null) {
+                    dataOutput = 'null';
+                } else if (result.data === undefined) {
+                    dataOutput = 'undefined';
+                } else if (typeof result.data === 'string') {
+                    dataOutput = result.data;
+                } else if (typeof result.data === 'number' || typeof result.data === 'boolean') {
+                    dataOutput = String(result.data);
+                } else if (typeof result.data === 'object') {
+                    dataOutput = JSON.stringify(result.data, null, 2); // Pretty-print JSON
+                } else {
+                    dataOutput = 'Unsupported data type received.\n';
+                }
                 appendOutput(dataOutput);
-            } else if (result.status === 'FAILURE') {
+
+            } else if(result.status === 'SUCCESS_OPERATION') {
+
+                console.log('result:', result);
+                console.log('result.data:', result.data);
+
+                if(result.data === 'clear') {
+                    clearOutput();
+                }
+
+            } else if(result.status === 'FAILURE') {
                 console.log(result.message);
                 appendOutput(`Error: ${result.message || 'An error occurred.\n'}`);
-            } else if (result.status === 'WARN') {
-                console.log(result.message);
-                appendOutput(`Warning: ${result.message || 'Command executed with warnings.\n'}`);
+            } else if(result.status === 'WARN') {
+            console.log(result.message);
+            appendOutput(`Warning: ${result.message || 'Command executed with warnings.\n'}`);
             } else {
                 appendOutput('Received an undefined status from the server.\n');
             }
