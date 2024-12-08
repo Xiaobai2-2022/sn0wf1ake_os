@@ -1,25 +1,17 @@
 ```pseudocode
-User Commands - "echo"
+User Commands - "clear"
 NAME
-	echo - display a line of text
+	clear - clear the terminal screen
 SYNTAX
-	echo [ STRING ]
-	echo [ OPTION ]
-	echo [ OPTION ] [ STRING ]
+	clear [ OPTION ]
 DESCRIPTION
-	echo the STRING(s) to standard output.
-	-n
-		do not output the trailing newline
-	-e
-		enable interpertation of backslash escapes
-	-E
-		disable interpertation of backslash escapes
+	clear clears your screen if this is possible
 	--help
 		display this help and exit
 	--version
 		output version information and exit
 NOTE
-	Each shell may have its own version of echo, which usually supersedes
+	Each shell may have its own version of clear, which usually supersedes
 	the version described here. Please refer to your shell's documentation
 	for details about the options it supports.
 AUTHOR
