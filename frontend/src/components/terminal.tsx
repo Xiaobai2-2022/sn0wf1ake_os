@@ -26,9 +26,9 @@ const Terminal: React.FC = () => {
     const prompt = 'user@localhost:~$ ';
 
     useEffect(() => {
-      if (terminalRef.current) {
-        terminalRef.current.scrollTop = terminalRef.current.scrollHeight;
-      }
+        if (terminalRef.current) {
+            terminalRef.current.scrollTop = terminalRef.current.scrollHeight;
+        }
     }, [output]);
 
     // useEffect(() => {
@@ -119,7 +119,7 @@ const Terminal: React.FC = () => {
 
     
 
-  const processCommand = async (commandLine: string) => {
+    const processCommand = async (commandLine: string) => {
     const [command, ...argsArray] = commandLine.trim().split(/\s+/);
     const args = argsArray.join(' ');
 
