@@ -9,6 +9,7 @@
  */
 package com.sn0wf1ake.backend.service.command;
 
+import com.sn0wf1ake.backend.APIResponse;
 import com.sn0wf1ake.backend.model.CommandInfo;
 import com.sn0wf1ake.backend.service.CommandInfoService;
 import com.sn0wf1ake.backend.utils.*;
@@ -30,7 +31,7 @@ public class CommandEcho implements Command {
     }
 
     @Override
-    public Object execute(String args) {
+    public APIResponse<?> execute(String args) {
 
         ArrayList<String> lFs = new ArrayList<>();
 
@@ -48,10 +49,10 @@ public class CommandEcho implements Command {
 
                 if(commandInfoOpt.isPresent()) {
                     CommandInfo commandInfo = commandInfoOpt.get();
-                    return commandInfo.getShortDescription();
+                    return APIResponse.success(commandInfo.getShortDescription() + '\n');
                 }
 
-                return "An unexpected error has Occured!";
+                return APIResponse.failure("An unexpected error has Occured!");
                 
             }
 
@@ -62,14 +63,15 @@ public class CommandEcho implements Command {
 
                 if(commandInfoOpt.isPresent()) {
                     CommandInfo commandInfo = commandInfoOpt.get();
-                    return commandInfo.getVer();
+                    return APIResponse.success(commandInfo.getVer() + '\n');
                 }
 
-                return "An unexpected error has Occured!";
+                return APIResponse.failure("An unexpected error has Occured!");
 
             }
 
-            return firstArg.getKey();
+            return APIResponse.success(firstArg.getKey());
+            
         }
 
         ArrayList<Character> sFs = new ArrayList<>();
@@ -81,9 +83,10 @@ public class CommandEcho implements Command {
         firstArg = SFStringUtils.retrieveFirstShortFlag(SFStringUtils.retrieveFirstArg(args), sFs);
 
 
+        if(args == null) return APIResponse.success("");
 
-        if(args == null) return "";
-        return args;
+        return APIResponse.success(args);
+
     }
 
 }
