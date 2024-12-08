@@ -30,43 +30,32 @@ const Terminal: React.FC = () => {
             terminalRef.current.scrollTop = terminalRef.current.scrollHeight;
         }
     }, [output]);
+    
+    useEffect(() => {
+        if (inputRef.current) {
+            inputRef.current.focus();
+        }
+    }, []);
 
-    // useEffect(() => {
+    useEffect(() => {
+        const handleBlur = () => {
+            if (inputRef.current) {
+                inputRef.current.focus();
+            }
+        };
 
-    //     if(dynamicSpanRef.current) {
-            
-    //         // console.log('Scroll Height:', document.documentElement.scrollHeight);
-            
-    //         // window.scrollTo({
-    //         //     top: document.body.scrollHeight,
-    //         //     // behavior: 'smooth',
-    //         // });
+        const inputElement = inputRef.current;
 
-    //         // dynamicSpanRef.current.scrollTop = dynamicSpanRef.current.scrollHeight;
+        if (inputElement) {
+            inputElement.addEventListener('blur', handleBlur);
+        }
 
-    //         const container = dynamicSpanRef.current;
-    //         const spans = container.querySelectorAll<HTMLSpanElement>('.dynamic-span');
-
-    //         const containerWidth = container.offsetWidth;
-    //         var currentWidth = 0;
-
-    //         // // Splits the spans if reaches maximum console width
-    //         // spans.forEach((span) => {
-
-    //         //     const spanWidth = span.offsetWidth;
-    //         //     currentWidth = (currentWidth + spanWidth) % containerWidth;
-
-    //         //     if(currentWidth > containerWidth) {
-    //         //         span.classList.add('breaked-span');
-    //         //     } else {
-    //         //         span.classList.remove('breaked-span');
-    //         //     }
-
-    //         // });
-
-    //     }
-
-    // }, [output]);
+        return () => {
+            if (inputElement) {
+                inputElement.removeEventListener('blur', handleBlur);
+            }
+        };
+    }, []);
 
     const handleInput = async(e: React.KeyboardEvent<HTMLDivElement>) => {
 
