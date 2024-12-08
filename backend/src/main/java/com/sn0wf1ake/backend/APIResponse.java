@@ -9,6 +9,7 @@ public class APIResponse<T> {
     
     public enum Status {
         SUCCESS,
+        SUCCESS_OPERATION,
         WARN,
         FAILURE,
         UNDEFINED
@@ -51,6 +52,10 @@ public class APIResponse<T> {
 
     public static <T> APIResponse<T> success(T data) {
         return new APIResponse<>(Status.SUCCESS, data, null);
+    }
+
+    public static <T> APIResponse<T> success(T opr, String message) {
+        return new APIResponse<>(Status.SUCCESS_OPERATION, opr, message);
     }
     
     public static <T> APIResponse<T> failure(String message) {

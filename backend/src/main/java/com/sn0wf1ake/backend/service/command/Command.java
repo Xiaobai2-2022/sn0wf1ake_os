@@ -7,6 +7,8 @@
  */
 package com.sn0wf1ake.backend.service.command;
 
+import com.sn0wf1ake.backend.APIResponse;
+
 public interface Command {
-    public Object execute(String args);
+    public APIResponse<?> execute(String args);
 }

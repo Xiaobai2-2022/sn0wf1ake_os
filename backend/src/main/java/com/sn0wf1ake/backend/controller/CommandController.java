@@ -27,8 +27,8 @@ public class CommandController {
 
         try {
             Command command = commandFactory.getCommand(commandModel.getCommand());
-            Object result = command.execute(commandModel.getArgs());
-            return ResponseEntity.ok(APIResponse.success(result));
+            APIResponse<?> result = command.execute(commandModel.getArgs());
+            return ResponseEntity.ok(result);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(APIResponse.failure(e.getMessage()));
         }
