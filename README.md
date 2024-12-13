@@ -8,6 +8,8 @@ Sn0wf1ake VM is a virtual machine system designed, implemented by Fangxia Techno
   - [Build Tools](#build-tools)
   - [Tools Installation](#tools-installation)
   - [Tools Configuration](#tools-configuration)
+- [Project Usage](#project-usage)
+- [Credits](#credits)
 
 ## About this Project
 
@@ -87,3 +89,38 @@ npm install axios
 ```
 
 Backend would update itself upon run
+
+## Project Usage
+
+```shell
+# Set up MySQL Server
+mysql -u root -p < setup_db.sql
+mysql -u root -p < commands.sql
+
+# Set up Backend Server
+./mvnw spring-boot:run
+
+# Set up Frontend Server
+npm start
+```
+
+You can now view your [Frontend](http://localhost:3000) in the browser.
+
+## Credits
+
+### Project Proposal
+
+**Xiaobai2** (Zhifan) Li
+**Michael** (Han) Shao
+
+### Lead Developer
+
+**Xiaobai2** (Zhifan) Li
+
+### Lead Project Manager
+
+**Michael** (Han) Shao
+
+### Visual Asset Designer
+
+**Hongli** Liu
