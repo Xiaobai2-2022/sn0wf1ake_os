@@ -111,6 +111,7 @@ You can now view your [Frontend](http://localhost:3000) in the browser.
 ### Project Proposal
 
 **Xiaobai2** (Zhifan) Li
+
 **Michael** (Han) Shao
 
 ### Lead Developer
