@@ -26,6 +26,7 @@ public class CommandController {
     public ResponseEntity<APIResponse<?>> handleCommand(@RequestBody CommandModel commandModel) {
 
         try {
+            // System.out.println(commandModel.getArgs());
             Command command = commandFactory.getCommand(commandModel.getCommand());
             APIResponse<?> result = command.execute(commandModel.getArgs());
             return ResponseEntity.ok(result);

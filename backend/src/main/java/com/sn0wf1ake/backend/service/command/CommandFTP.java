@@ -19,8 +19,15 @@ public class CommandFTP implements Command {
 
     @Override
     public APIResponse<?> execute(String args) {
-        
-        return APIResponse.success(SFCommandUtils.checkIncompleteCommand(args) + "\n");
+
+        SFPair<Boolean, APIResponse<?>> result = SFCommandUtils.procIncompleteCommand("FTP", args);
+
+        if(result.getKey()) {
+            return result.getValue();
+        } else {
+            // System.out.println(APIResponse.success(args + "\n"));
+            return APIResponse.success(args + "\n");
+        }
         
     }
 
