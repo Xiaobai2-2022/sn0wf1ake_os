@@ -24,6 +24,10 @@ const Terminal: React.FC = () => {
     const [historyIndex, setHistoryIndex] = useState<number>(-1);
     
     const prompt = 'user@localhost:~$ ';
+    const promptInc = '> ';
+    
+    const [promptCurrent, setPrompt] = useState<String>(prompt);
+    const [outputInc, setOutputInc] = useState<String>('');
 
     useEffect(() => {
         if (terminalRef.current) {
@@ -63,14 +67,15 @@ const Terminal: React.FC = () => {
             e.preventDefault();
             const commandLine = inputRef.current?.innerText.trim();
             if (commandLine) {
-                appendOutput(`${prompt}${commandLine}\n`);
+                appendOutput(`${promptCurrent}${commandLine}\n`);
                 updateHistory(commandLine);
-                await processCommand(commandLine);
+                console.log("processCommand", outputInc + commandLine);
+                await processCommand(outputInc + commandLine);
                 if (inputRef.current) {
                     inputRef.current.innerText = '';
                 }
             } else {
-                appendOutput(`${prompt}${commandLine}\n`);
+                appendOutput(`${promptCurrent}${commandLine}\n`);
             }
         } else if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
             e.preventDefault();
@@ -91,6 +96,19 @@ const Terminal: React.FC = () => {
         setHistory([...history, commandLine]);
         setHistoryIndex(-1);
     };
+
+    const updatePrompt = (prompt: string) => {
+        setPrompt(prompt);
+    };
+
+    const updateOutputInc = (out: string) => {
+        setOutputInc(out);
+    };
+
+    const clearOutputInc = () => {
+        setOutputInc('');
+    };
+      
   
     const navigateHistory = (key: string) => {
         if (history.length === 0) return;
@@ -113,8 +131,21 @@ const Terminal: React.FC = () => {
     
 
     const processCommand = async (commandLine: string) => {
-        const [command, ...argsArray] = commandLine.trim().split(/\s+/);
-        const args = argsArray.join(' ');
+        // const [command, ...argsArray] = commandLine.trim().split(/\s+/);
+        // const args = argsArray.join(' ');
+
+        const firstSpaceIndex = commandLine.indexOf(' ');
+
+        let command;
+        let args;
+
+        if(firstSpaceIndex === -1) {
+            command = commandLine;
+            args = '';
+        } else {
+            command = commandLine.slice(0, firstSpaceIndex);
+            args = commandLine.slice(firstSpaceIndex + 1);
+        }
 
         try {
             const response = await fetch('http://localhost:8080/api/execute', {
@@ -123,10 +154,16 @@ const Terminal: React.FC = () => {
                 body: JSON.stringify({ command, args }),
             });
 
+            console.log("response.body:", JSON.stringify({ command, args }));
+
 
             const result: APIResponse<string> = await response.json();
 
             if(result.status === 'SUCCESS') {
+
+                updatePrompt(prompt);
+                clearOutputInc();
+
                 let dataOutput = '';
 
                 console.log('result:', result);
@@ -151,9 +188,15 @@ const Terminal: React.FC = () => {
 
                 console.log('result:', result);
                 console.log('result.data:', result.data);
+                console.log('result.message:', result.message);
 
                 if(result.data === 'clear') {
                     clearOutput();
+                } else if(result.data === 'incomplete') {
+                    updatePrompt(promptInc);
+                    updateOutputInc(result.message || '');
+                } else {
+                    appendOutput(`Error: APIResponse Has no Operation ${result.data}\n`);
                 }
 
             } else if(result.status === 'FAILURE') {
@@ -166,7 +209,7 @@ const Terminal: React.FC = () => {
                 appendOutput('Received an undefined status from the server.\n');
             }
         } catch (error: any) {
-            appendOutput(`Error: ${error.message}`);
+            appendOutput(`Error: ${error.message}\n`);
         }
     };
 
@@ -174,11 +217,9 @@ const Terminal: React.FC = () => {
         <div className='terminal' ref={terminalRef}>
             <div className='container'>
                 {output.map((line, index) => (
-                    <span key={index} className='dynamic-span'>
-                        {line}
-                    </span>
+                    <span key={index} className='dynamic-span'>{line}</span>
                 ))}
-                <span className='dynamic-span'>{prompt}</span>
+                <span className='dynamic-span'>{promptCurrent}</span>
                 <span
                     className='dynamic-span'
                     contentEditable
