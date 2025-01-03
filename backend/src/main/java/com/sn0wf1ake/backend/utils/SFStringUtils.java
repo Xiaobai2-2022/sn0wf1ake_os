@@ -1,6 +1,5 @@
 /**
- * Provides the classes to represent a Command service
- * where all logic for excecution of commands are here
+ * Provides the classes to process String
  *
  * @since 0.0.4
  */
@@ -75,7 +74,6 @@ public class SFStringUtils {
     /**
      * Retrieve the first possible set of flags with validation, where it:
      * if agmented by -f, then return all possible leading flags and the rest of args
-     * !-- NOT FULLY TESTED --!
      * 
      * Note: ArrayList only allow non-primitive type
      */
@@ -117,6 +115,17 @@ public class SFStringUtils {
         }
         
         return new SFPair<String, String>(null, retrieveFirst.getKey() + " " + retrieveFirst.getValue());
+
+    }
+
+    /**
+     * Returns the number of appearance of given char c in given string str
+     */
+    public static int countCharInStr(String str, char c) {
+
+        // ch -> ch == c is a lambda expression
+        long count = str.chars().filter(ch -> ch == c).count();
+        return (int) count;
 
     }
 
