@@ -66,7 +66,7 @@ COPYRIGHT\n\
     This is free software: you are free to change and redistribute it.\n\
     However, you must make reference to Sn0wf1ake for redistribution.\n\
     There is NO WARRANTY, to the extent permitted by law.\n', 
-    '1.0.1')
+    '1.1.2')
 ON DUPLICATE KEY UPDATE
     short_description = VALUES(short_description),
     long_description = VALUES(long_description),
