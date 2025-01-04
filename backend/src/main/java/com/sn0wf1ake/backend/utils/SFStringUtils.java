@@ -129,4 +129,60 @@ public class SFStringUtils {
 
     }
 
+    /**
+     * Process the string with quoted format
+     * 
+     * Note: ArrayList only allow non-primitive type
+     */
+    public static String processQuote(String str) {
+
+        String[] allParts = str.split("\"", -1);
+
+        for(int i = 0; i < allParts.length; i += 2) {
+
+            System.out.println(allParts[i]);
+
+            String[] subParts = allParts[i].split(" ");
+
+            allParts[i] = "";
+
+            // Remove extra spaces for not quoted strings
+            for(int j = 0; j < subParts.length; j++) {
+                if(j != 0) allParts[i] += " ";
+                allParts[i] += subParts[j];
+            }
+
+            System.out.println(allParts[i]);
+
+            allParts[i] = allParts[i].replaceFirst("^\\s+", "");
+
+            // Remove all the escape sequences except for \\
+            String placeholder = "__BACKSLASH_PLACEHOLDER_FX_Sn0wf1ake_DEV__";
+
+            allParts[i] = allParts[i].replaceAll("\\\\\\\\", placeholder);
+            allParts[i] = allParts[i].replaceAll("\\\\", "");
+            allParts[i] = allParts[i].replaceAll(placeholder, "\\");
+
+        }
+
+        str = "";
+
+        boolean requireSpace = false;
+
+        for(int i = 0; i < allParts.length; i++) {
+            if(allParts[i].equals("")) {
+                requireSpace = false;
+                continue;
+            }
+            if(requireSpace) str += " ";
+            str += allParts[i];
+            requireSpace = true;
+        }
+
+        return str;
+
+    }
+
+
+
 }

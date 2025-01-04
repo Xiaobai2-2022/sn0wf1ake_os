@@ -30,9 +30,73 @@ public class CommandEcho implements Command {
         this.commandInfoService = commandInfoService;
     }
 
+    private APIResponse<?> helpRoutine(String args) {
+                
+        // Fetch echo's discription
+        Optional<CommandInfo> commandInfoOpt = commandInfoService.findByCommand("echo");
+
+        if(commandInfoOpt.isPresent()) {
+            CommandInfo commandInfo = commandInfoOpt.get();
+            return APIResponse.success(commandInfo.getShortDescription() + '\n');
+        }
+
+        return APIResponse.failure("An unexpected error has Occured!");
+
+    }
+
+    private APIResponse<?> versionRoutine(String args) {
+
+        // Fetch echo's version
+        Optional<CommandInfo> commandInfoOpt = commandInfoService.findByCommand("echo");
+
+        if(commandInfoOpt.isPresent()) {
+            CommandInfo commandInfo = commandInfoOpt.get();
+            return APIResponse.success(commandInfo.getVer() + '\n');
+        }
+
+        return APIResponse.failure("An unexpected error has Occured!");
+
+    }
+
+    private APIResponse<?> procShortFlag(String args, boolean eFlag, boolean nFlag) {
+
+        args = SFStringUtils.processQuote(args);
+
+        String out = "";
+
+        if(eFlag) {
+            args = args.replaceAll("\\\\b", "\b");
+            args = args.replaceAll("\\\\t", "\t");
+            args = args.replaceAll("\\\\n", "\n");
+            args = args.replaceAll("\\\\f", "\f");
+            args = args.replaceAll("\\\\r", "\r");
+            args = args.replaceAll("\\\\\"", "\"");
+            args = args.replaceAll("\\\\\'", "\'");
+            // args = args.replaceAll("\\\\\\", "\\");
+        }
+
+        out += args;
+
+        if(!nFlag) {
+            out += "\n";
+        }
+
+        return APIResponse.success(out);
+
+    }
+
     @Override
     public APIResponse<?> execute(String args) {
 
+
+
+        // Check for command completeness
+        SFPair<Boolean, APIResponse<?>> result = SFCommandUtils.procIncompleteCommand("echo", args);
+
+        // For incomplete command, return sucess, incomplete
+        if(result.getKey()) return result.getValue();
+
+        // Check for long flags
         ArrayList<String> lFs = new ArrayList<>();
 
         lFs.add("help");
@@ -43,37 +107,18 @@ public class CommandEcho implements Command {
         if(firstArg.getKey() != null) {
 
             if(firstArg.getKey().equals("help")) {
-                
-                // Fetch echo's discription
-                Optional<CommandInfo> commandInfoOpt = commandInfoService.findByCommand("echo");
-
-                if(commandInfoOpt.isPresent()) {
-                    CommandInfo commandInfo = commandInfoOpt.get();
-                    return APIResponse.success(commandInfo.getShortDescription() + '\n');
-                }
-
-                return APIResponse.failure("An unexpected error has Occured!");
-                
+                return helpRoutine(args);
             }
 
             if(firstArg.getKey().equals("version")) {
-
-                // Fetch echo's version
-                Optional<CommandInfo> commandInfoOpt = commandInfoService.findByCommand("echo");
-
-                if(commandInfoOpt.isPresent()) {
-                    CommandInfo commandInfo = commandInfoOpt.get();
-                    return APIResponse.success(commandInfo.getVer() + '\n');
-                }
-
-                return APIResponse.failure("An unexpected error has Occured!");
-
+                return versionRoutine(args);
             }
 
-            return APIResponse.success(firstArg.getKey());
+            return APIResponse.failure(firstArg.getKey());
             
         }
 
+        // Check for short flags
         ArrayList<Character> sFs = new ArrayList<>();
 
         sFs.add('e');
@@ -82,10 +127,24 @@ public class CommandEcho implements Command {
 
         firstArg = SFStringUtils.retrieveFirstShortFlag(SFStringUtils.retrieveFirstArg(args), sFs);
 
+        // Flags
+        boolean eFlag = false;          // Check if the interpretation of backslash escapes is enabled
+        boolean nFlag = false;          // Check if echoing trailing newline needs to be omited
 
-        if(args == null) return APIResponse.success("");
+        if(firstArg.getKey() != null)
+            for(char c : firstArg.getKey().toCharArray()) {
+                if(c == 'e') {
+                    eFlag = true;
+                } else if(c == 'E') {
+                    eFlag = false;
+                } else if(c == 'n') {
+                    nFlag = true;
+                } else {
+                    return APIResponse.failure("An unexpected error has Occured!");
+                }
+            }
 
-        return APIResponse.success(args + "\n");
+        return procShortFlag(firstArg.getValue(), eFlag, nFlag);
 
     }
 
