@@ -66,11 +66,17 @@ const Terminal: React.FC = () => {
         if (e.key === 'Enter') {
             e.preventDefault();
             const commandLine = inputRef.current?.innerText.trim();
-            if (commandLine) {
-                appendOutput(`${promptCurrent}${commandLine}\n`);
-                updateHistory(commandLine);
-                console.log("processCommand", outputInc + commandLine);
-                await processCommand(outputInc + commandLine);
+            if (commandLine || promptCurrent === promptInc) {
+                if(commandLine) {
+                    appendOutput(`${promptCurrent}${commandLine}\n`);
+                    updateHistory(commandLine);
+                    console.log("processCommand", outputInc + commandLine);
+                    await processCommand(outputInc + commandLine);
+                } else {
+                    appendOutput(`${promptCurrent}\n`);
+                    console.log("processCommand", outputInc + "");
+                    await processCommand(outputInc + "");
+                }
                 if (inputRef.current) {
                     inputRef.current.innerText = '';
                 }
@@ -191,10 +197,14 @@ const Terminal: React.FC = () => {
                 console.log('result.message:', result.message);
 
                 if(result.data === 'clear') {
+                    updatePrompt(prompt);
+                    clearOutputInc();
                     clearOutput();
                 } else if(result.data === 'incomplete') {
                     updatePrompt(promptInc);
                     updateOutputInc(result.message || '');
+                    console.log("result.message: ", result.message);
+                    console.log("outputInc: ", outputInc);
                 } else {
                     appendOutput(`Error: APIResponse Has no Operation ${result.data}\n`);
                 }

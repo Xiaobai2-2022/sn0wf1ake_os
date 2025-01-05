@@ -33,6 +33,12 @@ public class CommandClear implements Command {
     @Override
     public APIResponse<?> execute(String args) {
 
+        // Check for command completeness
+        SFPair<Boolean, APIResponse<?>> incResult = SFCommandUtils.procIncompleteCommand("clear", args);
+
+        // For incomplete command, return sucess, incomplete
+        if(incResult.getKey()) return incResult.getValue();
+
         ArrayList<String> lFs = new ArrayList<>();
 
         lFs.add("help");

@@ -20,6 +20,8 @@ public class SFCommandUtils {
      */
     public static SFPair<Boolean, String> checkIncompleteCommand(String args) {
 
+        if(args.equals("")) return new SFPair<Boolean,String>(true, args);
+
         // Pick seed using Our Visual Assistant Designer's Birthday and create Random Object
         final long SEED = 0x0131F180;
         final int LENGTH = 32;
