@@ -60,11 +60,33 @@ public class CommandEcho implements Command {
 
     private APIResponse<?> procShortFlag(String args, boolean eFlag, boolean nFlag) {
 
-        args = SFStringUtils.processQuote(args);
-
         String out = "";
 
+        // Pick seed using Our Visual Assistant Designer's Birthday and create Random Object
+        final long SEED = 0x0131F180;
+        final int LENGTH = 32;
+        SFRandomUtils rnd = new SFRandomUtils(SEED);
+
+        // We first replace the "\\" pair from the unprocessed string
+        String backSlashPlaceholder;
+
+        // Generate a placeholder which is not in the current args list
+        do {
+            backSlashPlaceholder = rnd.genHexStr(LENGTH);
+        } while(args.contains(backSlashPlaceholder));
+
+        // We first replace the "\\" pair from the unprocessed string
+        String specialBackSlashPlaceholder;
+
+        // Generate a placeholder which is not in the current args list
+        do {
+            specialBackSlashPlaceholder = rnd.genHexStr(LENGTH);
+        } while(args.contains(specialBackSlashPlaceholder) || specialBackSlashPlaceholder.equals(backSlashPlaceholder));
+
+        args = SFCommandUtils.procArgsFormat(args, specialBackSlashPlaceholder);
+
         if(eFlag) {
+            args = args.replaceAll("\\\\\\\\", backSlashPlaceholder);
             args = args.replaceAll("\\\\b", "\b");
             args = args.replaceAll("\\\\t", "\t");
             args = args.replaceAll("\\\\n", "\n");
@@ -72,8 +94,10 @@ public class CommandEcho implements Command {
             args = args.replaceAll("\\\\r", "\r");
             args = args.replaceAll("\\\\\"", "\"");
             args = args.replaceAll("\\\\\'", "\'");
-            // args = args.replaceAll("\\\\\\", "\\");
+            args = args.replaceAll(backSlashPlaceholder, "\\\\");
         }
+
+        args = args.replaceAll(specialBackSlashPlaceholder, "\\\\");
 
         out += args;
 
@@ -88,13 +112,11 @@ public class CommandEcho implements Command {
     @Override
     public APIResponse<?> execute(String args) {
 
-
-
         // Check for command completeness
-        SFPair<Boolean, APIResponse<?>> result = SFCommandUtils.procIncompleteCommand("echo", args);
+        SFPair<Boolean, APIResponse<?>> incResult = SFCommandUtils.procIncompleteCommand("echo", args);
 
         // For incomplete command, return sucess, incomplete
-        if(result.getKey()) return result.getValue();
+        if(incResult.getKey()) return incResult.getValue();
 
         // Check for long flags
         ArrayList<String> lFs = new ArrayList<>();
