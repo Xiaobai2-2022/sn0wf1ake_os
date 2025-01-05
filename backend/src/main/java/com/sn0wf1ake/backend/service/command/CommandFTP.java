@@ -20,14 +20,12 @@ public class CommandFTP implements Command {
     @Override
     public APIResponse<?> execute(String args) {
 
-        long seed = 0x0131f180;
-        int len = Integer.parseInt(args);
-        SFRandomUtils rnd = new SFRandomUtils(seed);
-
-        String hexStr = rnd.genHexStr(len);
-        hexStr += "\n" + rnd.genHexStr(len);
+        SFPair<Boolean, APIResponse<?>> incResult = SFCommandUtils.procIncompleteCommand("FTP", args);
         
-        return APIResponse.success(hexStr + "\n");
+        if(incResult.getKey())
+            return incResult.getValue();
+
+        return APIResponse.success(args + "\n");
         
     }
 

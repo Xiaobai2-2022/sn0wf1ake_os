@@ -18,10 +18,55 @@ public class SFCommandUtils {
      * Process to check if there is incomplete command
      *     return false if command is incomplete, true otherwise
      */
-    public static boolean checkIncompleteCommand(String args) {
+    public static SFPair<Boolean, String> checkIncompleteCommand(String args) {
+
+        // Pick seed using Our Visual Assistant Designer's Birthday and create Random Object
+        final long SEED = 0x0131F180;
+        final int LENGTH = 32;
+        SFRandomUtils rnd = new SFRandomUtils(SEED);
+
+        boolean isComplete = true;
+
+        // We first replace the "\\" pair from the unprocessed string
+        String backSlashPlaceholder;
+
+        // Generate a placeholder which is not in the current args list
+        do {
+            backSlashPlaceholder = rnd.genHexStr(LENGTH);
+        } while(args.contains(backSlashPlaceholder));
+
+        // Replace
+        args = args.replaceAll("\\\\\\\\", backSlashPlaceholder);
+
+        // We then replace the "\\" pair from the unprocessed string
+        String doubleQuotePlaceholder;
+
+        // Generate a placeholder which is not in the current args list
+        do {
+            doubleQuotePlaceholder = rnd.genHexStr(LENGTH);
+        } while(args.contains(doubleQuotePlaceholder));
+
+        // Replace
+        args = args.replaceAll("\\\\\\\"", backSlashPlaceholder);
+
+        // Check if the number of double quote is even
+        isComplete &= SFStringUtils.countCharInStr(args, '\"') % 2 == 0;
+
+        // // Check if the string ends with a single "\"
+        // isComplete &= args.charAt(args.length() - 1) == '\\';
+
+        if(args.charAt(args.length() - 1) == '\\') {
+            isComplete = false;
+        } else {
+            args += "\n";
+        }
+
+        // Reset the Quotations and Backslashs
+        args = args.replaceAll(doubleQuotePlaceholder, "\\\"");
+        args = args.replaceAll(backSlashPlaceholder, "\\\\");
         
         // The compeleteness of a command here is determined by the number of double quote in the line
-        return SFStringUtils.countCharInStr(args, '\"') % 2 != 0;
+        return new SFPair<Boolean,String>(isComplete, args);
 
     }
 
@@ -32,12 +77,14 @@ public class SFCommandUtils {
      */
     public static SFPair<Boolean, APIResponse<?>> procIncompleteCommand(String command, String args) {
 
-        if(!checkIncompleteCommand(args)) {
+        SFPair<Boolean, String> incResult = checkIncompleteCommand(args);
+
+        if(incResult.getKey()) {
             return new SFPair<Boolean, APIResponse<?>>(false, null);
         }
 
         return new SFPair<Boolean, APIResponse<?>>(true, 
-            APIResponse.success("incomplete", command + " " + args + "\n")
+            APIResponse.success("incomplete", command + " " + incResult.getValue())
         );
 
     }
